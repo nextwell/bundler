@@ -1,0 +1,30 @@
+{
+  "name": "bundler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nextwell/bundler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nextwell/bundler/issues"
+  },
+  "homepage": "https://github.com/nextwell/bundler#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.0.0",
+    "fs": "0.0.1-security",
+    "fs-cheerio": "^2.0.1",
+    "path": "^0.12.7",
+    "pug": "^2.0.3",
+    "require-fu": "^1.0.0"
+  }
+}

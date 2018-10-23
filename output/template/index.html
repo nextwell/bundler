@@ -21,6 +21,15 @@
 		$(document).ready(function(){
 			$('.ddh-2').hide();		// hide block
 			$('.ddh-3').hide();		// hide block
+			$('a[href="#preland"]').click(function(){
+				$('.ddh-1').hide();
+				$('.ddh-2').show();
+			})
+			$('a[href="#land"]').click(function(){
+				$('.ddh-1').hide();
+				$('.ddh-2').hide();
+				$('.ddh-3').show();
+			})
 		})
 	</script>
 

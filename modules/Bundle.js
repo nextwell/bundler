@@ -31,7 +31,19 @@ class Bundle extends Page{
 				this.Code(this.blocks.safepage).append(page.Body);
 				break;
 			};
+			case 'head': {
+				this.Code('head').append(page.Body);
+				break;
+			};
+			case 'css': {
+					// css in header
+				this.Code('head').append(`<style>${page.Body}</style>`);
+				break;
+			};
 		}
+	}
+	settupCss(){
+		// do nothing
 	}
 
 	async save(){

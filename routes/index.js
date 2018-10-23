@@ -33,6 +33,8 @@ module.exports = (app) => {
 		await bundle.settup()
 		Pages.forEach( async(item, i, array) => {
 			await bundle.inputCode({type: item.Type, Body: item.Body})
+			bundle.inputCode({type: 'head', Body: item.Head})
+			bundle.inputCode({type: 'css', Body: item.css})
 		})
 		bundle.save();
 	})

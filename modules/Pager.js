@@ -1,5 +1,15 @@
-let cheerio = require('cheerio'),
-	fs		= require('fs');
+let cheerio 		 = require('cheerio'),
+	fs				 = require('fs');
+
+
+function randomise(){
+	let time     = new Date(),
+		dirTime  = time.getTime(),
+		dirStr   =  Math.random()
+			                .toString(36)
+			    			.slice(2, 2 + Math.max(1, Math.min(15, 25)) )
+		return `${dirTime + dirStr}`;
+}
 
 class Page{
 	constructor(data){
@@ -9,8 +19,10 @@ class Page{
 		this.Body = null;
 		this.Head = null;
 		this.css = null;
+		this.oldNames = [];
+		this.newNames = [];
 		this.settup();
-		this.settupCss();
+		this.settupFiles();
 	}
 
 	settup(){
@@ -21,8 +33,9 @@ class Page{
 
 	}
 
-	async settupCss(){
+	async settupFiles(){
 		let styles = '';
+
 		await fs.readdirSync(`${__dirname}/../input/${this.Type}/assets/`).forEach(async file => {
 		    let type      = file.substr(file.indexOf(".") + 1),
 		        instaName = file.split('.')[0];
@@ -32,6 +45,21 @@ class Page{
 		    		style = style.toString();
 		    		styles = styles + style;
 		    	}
+		    	else if ( type == 'png' || type == 'jpg'){
+		    		let oldName = file;
+		    		let newName = `${randomise()}.${type}`;
+		    		this.oldNames.push(oldName);
+		    		this.newNames.push(newName);
+		    		
+		    		await fs.rename(`${__dirname}/../input/${this.Type}/assets/${file}`, `${__dirname}/../output/prod/assets/${newName}`, (err) => {
+		    		}); 
+		    	}
+		    	else {
+		    		await fs.rename(`${__dirname}/../input/${this.Type}/assets/${file}`, `${__dirname}/../output/prod/assets/${file}`, (err) => {
+		    			//if (err) console.log(err)
+		    		}); 
+		    	}
+
 		})
 		this.css = styles;
 	}
@@ -44,7 +72,7 @@ class Page{
 		return this.Body;
 	}
 	getHead(){
-		return this.Body;
+		return this.Head;
 	}
 
 }

@@ -1,5 +1,6 @@
-let Page = require('./Pager.js')
-    fsc  = require("fs-cheerio");;
+let Page    = require('./Pager.js')
+    fsc     = require("fs-cheerio"),
+    replace = require('replace-in-file');
 
 
 class Bundle extends Page{
@@ -49,6 +50,27 @@ class Bundle extends Page{
 	async save(){
 		await fsc.writeFile('./output/prod/index.html', this.Code);
 		console.log("Save!");
+	}
+
+	async replaceNames(arr){
+		let imagesList = {
+		  files: ['./output/prod/*.html'/*, './output/prod/assets/*.js'*/],
+		  from: [],
+		  to: [],
+		};
+
+		arr.forEach((item, i, array) => {
+			imagesList.from.push(...item.oldNames);
+			imagesList.to.push(...item.newNames);
+		})
+
+		await imagesList.from.push(`url(`);
+		imagesList.to.push(`url('assets/`);
+
+		let changes = await replace.sync(imagesList);
+
+		console.log(imagesList);
+
 	}
 
 

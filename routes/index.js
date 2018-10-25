@@ -8,7 +8,8 @@ let Page   = require('./../modules/Pager.js'),
 let cheerio   = require('cheerio'),
 	zipFolder = require('zip-folder'),
 	rimraf	  = require('rimraf'),
-	mkdirp	  = require('mkdirp');
+	mkdirp	  = require('mkdirp'),
+	copydir   = require('copy-dir');;
 
 let pagesCfg = [
 	{
@@ -57,12 +58,13 @@ module.exports = (app) => {
 			await upload(req.files, type);
 		}
 		else if ( type == 'confirm' ){
+			copydir.sync('./output/template/libs', './output/prod/libs/');
 			let Pages = [];
 			pagesCfg.forEach(async (item, i, array) => {
 				Pages.push(new Page({ Url: item.url, Type: item.type }))
 			})
 
-			let bundle = new Bundle({Url: './output/template/index.html'})
+			let bundle = new Bundle({Url: './output/template/index.php'})
 			await bundle.settup()
 			Pages.forEach( async(item, i, array) => {
 				await bundle.inputCode({type: item.Type, Body: item.Body})
@@ -117,6 +119,10 @@ module.exports = (app) => {
 								        	if ( err ) console.log(err)
 								    
 								        });
+							        	mkdirp('./output/prod/libs', function(err){
+									        if ( err ) console.log(err)
+									    
+									    });
 						        });
 				        });
 				       

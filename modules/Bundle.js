@@ -48,16 +48,27 @@ class Bundle extends Page{
 	}
 
 	async save(){
-		await fsc.writeFile('./output/prod/index.html', this.Code);
+		await fsc.writeFile('./output/prod/index.php', this.Code);
 		console.log("Save!");
 	}
 
 	async replaceNames(arr){
+		let fix = {
+		  files: ['./output/prod/*.php'/*, './output/prod/assets/*.js'*/],
+		  from: ['&gt;'],
+		  to: ['>'],
+		};
+
+		await replace.sync(fix);
+
+
+
 		let imagesList = {
-		  files: ['./output/prod/*.html'/*, './output/prod/assets/*.js'*/],
+		  files: ['./output/prod/*.php'/*, './output/prod/assets/*.js'*/],
 		  from: [],
 		  to: [],
 		};
+
 
 		arr.forEach((item, i, array) => {
 			imagesList.from.push(...item.oldNames);
